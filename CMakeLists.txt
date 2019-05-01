@@ -92,7 +92,10 @@ list(
     --disable-optimizations
   )
 
-# Tell configure script where pkgconfig files are
+# Add the x264 package and set PKG_CONFIG_PATH hint to X264_ROOT (for ffmpeg)
+hunter_add_package(x264)
+find_package(x264 CONFIG REQUIRED)
+set(ENV{PKG_CONFIG_PATH} ${X24_ROOT}/lib/pkgconfig)
 
 # Must be able to find libx264
 execute_process(
@@ -214,8 +217,6 @@ set(
 add_library(avcodec ${ffmpeg_codec_files})
 
 # Minimal config add x264 depenedency:
-hunter_add_package(x264)
-find_package(x264 CONFIG REQUIRED)
 target_link_libraries(avcodec PUBLIC PkgConfig::x264)
 
 set(
